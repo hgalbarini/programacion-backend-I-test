@@ -1,0 +1,9 @@
+hacer los models con el mongoose.Schema
+https://mongoosejs.com/
+
+mongodb.com
+network  access / ip access list / 0.0.0.0 y ahi te permite cualquier ip
+
+hugogalb9595_db_user
+ShgYxqdnqOPhn3RL
+mongodb+srv://hugogalb9595_db_user:ShgYxqdnqOPhn3RL@cluster0.ok5hgzh.mongodb.net/

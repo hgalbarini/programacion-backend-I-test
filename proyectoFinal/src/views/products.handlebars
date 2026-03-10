@@ -1,0 +1,29 @@
+<h1>Listado de Productos</h1>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+    {{#each products}}
+    <div style="border: 1px solid black; padding: 10px;">
+        <h3>{{this.title}}</h3>
+        <p>Precio: ${{this.price}}</p>
+        <button onclick="addToCart('{{this._id}}')">Agregar al Carrito</button>
+    </div>
+    {{/each}}
+</div>
+
+<div style="margin-top: 20px;">
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}">Anterior</a>
+    {{/if}}
+    <span> Página {{page}} </span>
+    {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}">Siguiente</a>
+    {{/if}}
+</div>
+
+<script>
+    // Función rápida para probar el botón (asumiendo que tienes un ID de carrito fijo por ahora)
+    async function addToCart(pid) {
+        const cid = "AQUÍ_ID_DE_UN_CARRITO_REAL"; 
+        const response = await fetch(`/api/carts/${cid}/product/${pid}`, { method: 'POST' });
+        if(response.ok) alert("Producto agregado!");
+    }
+</script>

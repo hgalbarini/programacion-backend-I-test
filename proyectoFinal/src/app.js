@@ -8,6 +8,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { Server } from 'socket.io';
 import viewsRouter from './routes/views.router.js';
+import mongoose from 'mongoose';
+
 
 
 
@@ -16,8 +18,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 8080;
+const MONGO_URI = 'mongodb+srv://hugogalb9595_db_user:ShgYxqdnqOPhn3RL@cluster0.ok5hgzh.mongodb.net/ecommerce?retryWrites=true&w=majority'
 
-app.engine('handlebars', handlebars.engine() );
+mongoose.connect(MONGO_URI)
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB:', error);
+    })
+
+// Configuración de Handlebars con Helpers
+app.engine('handlebars', handlebars.engine({
+    helpers: {
+        // Definimos la función multiply para usarla en las vistas
+        multiply: (a, b) => {
+            return (a || 0) * (b || 0);
+        }
+    }
+}));
 app.set('views', path.join(__dirname, 'views' ) );
 app.set('view engine', 'handlebars');
 

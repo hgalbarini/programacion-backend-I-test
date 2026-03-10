@@ -1,0 +1,40 @@
+<div class="container" style="padding: 20px;">
+    <h1>🛒 Detalle del Carrito</h1>
+    <hr>
+    
+    <p><strong>ID del Carrito:</strong> {{cart._id}}</p>
+
+    <div id="cartProducts" style="display: grid; gap: 15px; margin-top: 20px;">
+        {{#each cart.products}}
+            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background-color: #f9f9f9;">
+                <!-- Accedemos a 'product' porque es el campo que tiene el populate -->
+                <h3>Producto: {{this.product.title}}</h3>
+                <p><strong>Precio Unitario:</strong> ${{this.product.price}}</p>
+                <p><strong>Cantidad en carrito:</strong> {{this.quantity}}</p>
+                <p><strong>Subtotal:</strong> ${{multiply this.product.price this.quantity}}</p>
+                
+                <button onclick="removeProduct('{{../cart._id}}', '{{this.product._id}}')" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                    Eliminar del carrito
+                </button>
+            </div>
+        {{else}}
+            <p>El carrito está vacío. ¡Ve a la tienda y agrega algo!</p>
+        {{/each}}
+    </div>
+
+    <div style="margin-top: 30px;">
+        <a href="/products" style="text-decoration: none; background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px;">
+            ⬅ Volver a la tienda
+        </a>
+    </div>
+</div>
+
+<script>
+    async function removeProduct(cid, pid) {
+        const response = await fetch(`/api/carts/${cid}/products/${pid}`, { method: 'DELETE' });
+        if(response.ok) {
+            alert("Producto eliminado");
+            location.reload(); // Recarga la página para ver los cambios
+        }
+    }
+</script>
