@@ -29,7 +29,7 @@ jobs:
           node-version: '24' 
           cache: 'npm'
           # 2. RUTA AL LOCK FILE:
-          cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: 'proyectoFinal/package-lock.json'
 
       - name: Install dependencies
         run: npm install
