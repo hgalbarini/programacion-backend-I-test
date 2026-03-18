@@ -15,11 +15,18 @@
   "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "node --watch src/app.js"
+    "dev": "node --watch src/app.js",
+    "testUnit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "Hugo Galbarini",
   "type": "module",
   "license": "ISC",
-  "description": "proyectofinal"
+  "description": "proyectofinal",
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "mongodb-memory-server": "^11.0.1",
+    "supertest": "^7.2.2"
+  }
 }

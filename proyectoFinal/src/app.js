@@ -56,13 +56,21 @@ app.use('/api/products',productsRouter)
 // CART ROUTES
 app.use('/api/carts',cartsRouter)
 
-const httpServer = app.listen(PORT, () => { console.log(`Servidor con Express en el puerto ${PORT}`) })
+// Solo arrancamos el servidor si NO estamos en modo de test
+if (process.env.NODE_ENV !== 'test') {
+    const httpServer = app.listen(PORT, () => { 
+        console.log(`Servidor con Express en el puerto ${PORT}`);
+    });
 
-const io = new Server(httpServer);
-app.set('socketio',io);  //seteo esto para que se pueda acceder desde las rutas
+    const io = new Server(httpServer);
+    app.set('socketio', io);
 
-io.on('connection',  socket => {
-    console.log('Nuevo cliente conectado con el id ' + socket.id );
-})
+    io.on('connection', socket => {
+        console.log('Nuevo cliente conectado: ' + socket.id);
+    });
+}
+
+// Exportamos la app para que Supertest pueda usarla
+export default app;
 
 
