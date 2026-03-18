@@ -6,11 +6,15 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  # Esto quita el aviso naranja de Node 20 deprecado
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     
-    # 1. ESTO ES CLAVE: Le dice a los comandos que trabajen dentro de la carpeta 'proyectoFinal'
+    # 1. LE DECIMOS DONDE TRABAJAR:
     defaults:
       run:
         working-directory: ./proyectoFinal
@@ -22,18 +26,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          # 2. Cacheamos npm para que los tests corran más rápido en el futuro
+          node-version: '24' 
           cache: 'npm'
+          # 2. RUTA AL LOCK FILE:
           cache-dependency-path: ./proyectoFinal/package-lock.json
 
       - name: Install dependencies
         run: npm install
 
       - name: Run Tests
-        # 3. Ejecutamos tus tests de Jest/Mocha configurados en el package.json
         run: npm test
         env:
           NODE_ENV: test
-          # 4. Asegúrate de que este Secret esté cargado en GitHub Settings
+          # 3. SECRETOS: Asegúrate de tener MONGO_URL en GitHub Secrets
           MONGO_URL: mongodb+srv://hugogalb9595_db_user:ShgYxqdnqOPhn3RL@cluster0.ok5hgzh.mongodb.net/ecommerce?retryWrites=true&w=majority
