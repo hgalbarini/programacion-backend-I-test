@@ -9,30 +9,31 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
-    services:
-      # Si tus tests de Jest necesitan una base de datos real y no usas mocks
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
+    
+    # 1. ESTO ES CLAVE: Le dice a los comandos que trabajen dentro de la carpeta 'proyectoFinal'
+    defaults:
+      run:
+        working-directory: ./proyectoFinal
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/checkout@v4
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
+          # 2. Cacheamos npm para que los tests corran más rápido en el futuro
           cache: 'npm'
+          cache-dependency-path: ./proyectoFinal/package-lock.json
 
       - name: Install dependencies
         run: npm install
 
       - name: Run Tests
+        # 3. Ejecutamos tus tests de Jest/Mocha configurados en el package.json
         run: npm test
         env:
           NODE_ENV: test
-          # Aquí pasas la URL de tu base de datos si es necesaria
-          MONGO_URL: mongodb://localhost:27017/testdb
+          # 4. Asegúrate de que este Secret esté cargado en GitHub Settings
+          MONGO_URL: mongodb+srv://hugogalb9595_db_user:ShgYxqdnqOPhn3RL@cluster0.ok5hgzh.mongodb.net/ecommerce?retryWrites=true&w=majority
