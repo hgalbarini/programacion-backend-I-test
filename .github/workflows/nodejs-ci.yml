@@ -26,10 +26,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24' 
-          cache: 'npm'
-          # 2. RUTA AL LOCK FILE:
-          cache-dependency-path: 'proyectoFinal/package-lock.json'
+          node-version: '24'
+          cache: 'npm' # Mantenemos npm porque es lo que usas
+          # El ** le dice: "buscá en cualquier subcarpeta el package-lock"
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install dependencies
         run: npm install
